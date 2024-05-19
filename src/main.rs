@@ -44,7 +44,7 @@ fn execute_command(
         let data = msg.split_once(' ');
 
         match data {
-            Some((command, input)) => {
+            Some((command, mut input)) => {
                 let result = match command {
                     "lowercase" => lowercase(String::from(input)),
                     "uppercase" => uppercase(String::from(input)),
@@ -53,9 +53,11 @@ fn execute_command(
                     "reverse" => reverse(String::from(input)),
                     "trim" => trim(String::from(input)),
                     "csv" => {
+                        input = input.trim();
                         let csv_input = input.split_once(' ');
                         let csv = match csv_input {
-                            Some((file_name, separator)) => {
+                            Some((file_name, mut separator)) => {
+                                separator = separator.trim();
                                 if separator.len() == 0 {
                                     parse_csv(String::from(file_name), None)
                                 } else {
